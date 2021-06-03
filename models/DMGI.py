@@ -163,6 +163,7 @@ class modeler(nn.Module):
 
         # Attention or not
         if self.args.isAttn:
+            # print("using attention")
             h_1_all_lst = []; h_2_all_lst = []; c_all_lst = []
 
             for h_idx in range(self.args.nheads):
@@ -173,10 +174,12 @@ class modeler(nn.Module):
                 h_1_all = torch.mean(torch.cat(h_1_all_lst), 0).unsqueeze(0)
                 h_2_all = torch.mean(torch.cat(h_2_all_lst), 0).unsqueeze(0)
             else:
-                h_1_all = torch.cat(h_1_all_lst,2).squeeze()
-                h_2_all = torch.cat(h_2_all_lst,2).squeeze()
+                h_1_all = torch.cat(h_1_all_lst,2).squeeze().unsqueeze(0)
+                h_2_all = torch.cat(h_2_all_lst,2).squeeze().unsqueeze(0)
 
         else:
+            # print("no using attention")
+            
             if (self.args.isMeanOrCat == 'Mean'):
                 h_1_all = torch.mean(torch.cat(h_1_all), 0).unsqueeze(0)
                 h_2_all = torch.mean(torch.cat(h_2_all), 0).unsqueeze(0)

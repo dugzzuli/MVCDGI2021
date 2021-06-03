@@ -50,7 +50,7 @@ def runMain(config,f,args):
 
 if __name__ == '__main__':
 
-    d=['3sources'] #['Reuters','yale_mtv','MSRCv1','3sources','small_Reuters','small_NUS','BBC','BBCSport'] # ['BBCSport','yale_mtv','MSRCv1','3sources']
+    d=['yale_mtv'] #['Reuters','yale_mtv','MSRCv1','3sources','small_Reuters','small_NUS','BBC','BBCSport'] # ['BBCSport','yale_mtv','MSRCv1','3sources']
     for data in d:
         for link in ['Mean']:
             config = yaml.load(open("configMainMLSC.yaml", 'r'))

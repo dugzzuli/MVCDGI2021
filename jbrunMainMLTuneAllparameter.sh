@@ -1,7 +1,7 @@
 #!/bin/bash  
 sc=10.0
 
-for lr in 0.01 0.001 0.0001
+for lr in 0.01 0.001 0.0001 
 do 
     for l2_coef in 0.01 0.001 0.0001 0.00001
     do 

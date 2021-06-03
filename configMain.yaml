@@ -51,7 +51,7 @@ MSRCv1:
   reg_coef: [0.01,0.001,0.0001,0.00001]
   hid: [64]
   sc: 3
-  nb_epochs: 5000
+  nb_epochs: 500
   norm: False
   
 Scene-15:
@@ -117,11 +117,21 @@ HW:
   reg_coef: [0.01,0.001,0.0001,0.00001]
   hid: [32,64,256,512]
   sc: 10
-  nb_epochs: 1000
-  norm: Flse
+  nb_epochs: 5000
+  norm: False
 
 small_NUS:
   View_num: 5
+  lr: [0.01,0.001,0.0001]
+  l2_coef: [0.01,0.001,0.0001,0.00001]
+  reg_coef: [0.01,0.001,0.0001,0.00001]
+  hid: [64,128,256,512]
+  sc: 10
+  nb_epochs: 500
+  norm: False
+
+100leaves:
+  View_num: 3
   lr: [0.01,0.001,0.0001]
   l2_coef: [0.01,0.001,0.0001,0.00001]
   reg_coef: [0.01,0.001,0.0001,0.00001]
@@ -201,7 +211,7 @@ Caltech101-all:
   reg_coef: [0.01,0.001,0.0001,0.00001]
   hid: [64,128,256,512]
   sc: 10
-  nb_epochs: 500
+  nb_epochs: 5000
   norm: False
 
 citeseer:

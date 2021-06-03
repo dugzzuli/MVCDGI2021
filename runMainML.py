@@ -71,7 +71,8 @@ if __name__ == '__main__':
             
             parser.add_argument('--isBias',default=False)
             
-            parser.add_argument('--isAttn',  default=True if "Mean"==link else False)
+            parser.add_argument('--isAttn',  default=True)
+            # parser.add_argument('--isAttn',  default=True if "Mean"==link else False)
             
             parser.add_argument('--isMeanOrCat', nargs='?', default=link) #config[data]['isMeanOrCat']
             parser.add_argument('--Weight', nargs='?', default=config['Weight'])
