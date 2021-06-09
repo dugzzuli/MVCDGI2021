@@ -50,9 +50,9 @@ def runMain(config,f,args):
 
 if __name__ == '__main__':
 
-    d=['yale_mtv'] #['Reuters','yale_mtv','MSRCv1','3sources','small_Reuters','small_NUS','BBC','BBCSport'] # ['BBCSport','yale_mtv','MSRCv1','3sources']
+    d=['small_Reuters'] #['Reuters','yale_mtv','MSRCv1','3sources','small_Reuters','small_NUS','BBC','BBCSport'] # ['BBCSport','yale_mtv','MSRCv1','3sources']
     for data in d:
-        for link in ['Mean']:
+        for link in ['Cat']:
             config = yaml.load(open("configMainMLSC.yaml", 'r'))
             
             # input arguments
@@ -71,7 +71,7 @@ if __name__ == '__main__':
             
             parser.add_argument('--isBias',default=False)
             
-            parser.add_argument('--isAttn',  default=True if "Mean"==link else False)
+            parser.add_argument('--isAttn',  default=False)
             
             parser.add_argument('--isMeanOrCat', nargs='?', default=link) #config[data]['isMeanOrCat']
             parser.add_argument('--Weight', nargs='?', default=config['Weight'])
