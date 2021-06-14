@@ -17,10 +17,10 @@ import yaml
 
 if __name__ == '__main__':
 
-    d=['small_Reuters'] #['Reuters','yale_mtv','MSRCv1','3sources','small_Reuters','small_NUS','BBC','BBCSport'] # ['BBCSport','yale_mtv','MSRCv1','3sources']
+    d=['MSRCv1'] #['Reuters','yale_mtv','MSRCv1','3sources','small_Reuters','small_NUS','BBC','BBCSport'] # ['BBCSport','yale_mtv','MSRCv1','3sources']
     atten=False
     for data in d:
-        for link in ['Mean']:
+        for link in ['Cat']:
             config = yaml.load(open("configMain.yaml", 'r'))
             
             # input arguments
