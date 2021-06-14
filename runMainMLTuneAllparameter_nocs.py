@@ -20,7 +20,7 @@ if __name__ == '__main__':
     d=['small_Reuters'] #['Reuters','yale_mtv','MSRCv1','3sources','small_Reuters','small_NUS','BBC','BBCSport'] # ['BBCSport','yale_mtv','MSRCv1','3sources']
     atten=False
     for data in d:
-        for link in ['Mean']:
+        for link in ['Cat']:
             config = yaml.load(open("configMain.yaml", 'r'))
             
             # input arguments
@@ -37,7 +37,7 @@ if __name__ == '__main__':
             parser.add_argument('--nheads', type=int, default=1)
             parser.add_argument('--activation', nargs='?', default='leakyrelu')
             parser.add_argument('--isBias',default=False)
-            parser.add_argument('--isAttn',  default=atten)
+            parser.add_argument('--isAttn',  default=atten)wwwwwwwwwwwwwwwwwwww
             
             parser.add_argument('--isMeanOrCat', nargs='?', default=link) #config[data]['isMeanOrCat']
             parser.add_argument('--Weight', nargs='?', default=config['Weight'])
