@@ -26,7 +26,7 @@ BBCSport:
   l2_coef: [0.001]
   reg_coef: [0.00001]
   hid: [512]
-  sc: 100
+  sc: 10
   nb_epochs: 500
   norm: False
 

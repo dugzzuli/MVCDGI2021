@@ -75,6 +75,9 @@ class DMGI(embedder):
 
             if cnt_wait == self.args.patience:
                 break
+            
+            
+                
 
             loss.backward()
             optimiser.step()
@@ -106,7 +109,27 @@ class DMGI(embedder):
 
 
         # model.load_state_dict(torch.load('saved_model/best_{}_{}_{}.pkl'.format(self.args.dataset, self.args.embedder,0)))
-
+            dirp='baseline/epoch/{}/'.format(self.args.dataset)
+            
+            mkdir(dirp)
+            if(epoch==0):
+                np.savetxt(dirp+'{}_{}.txt'.format(epoch,self.args.hid_units),np.squeeze(model.H.data.detach().cpu()),delimiter=',')
+            
+            if(epoch==10):
+                np.savetxt(dirp+'{}_{}.txt'.format(epoch,self.args.hid_units),np.squeeze(model.H.data.detach().cpu()),delimiter=',')
+            
+            if(epoch%100==0):
+                np.savetxt(dirp+'{}_{}.txt'.format(epoch,self.args.hid_units),np.squeeze(model.H.data.detach().cpu()),delimiter=',')
+            
+            # if(epoch==20):
+            #     np.savetxt(dirp+'{}.txt'.format(epoch),np.squeeze(model.H.data.detach().cpu()),delimiter=',')
+                
+            # if(epoch==30):
+            #     np.savetxt(dirp+'{}.txt'.format(epoch),np.squeeze(model.H.data.detach().cpu()),delimiter=',')
+            
+            # if(epoch==40):
+            #     np.savetxt(dirp+'{}.txt'.format(epoch),np.squeeze(model.H.data.detach().cpu()),delimiter=',')
+            
         # Evaluation
         model.eval()
         nmi,acc,ari,stdacc,stdnmi,stdari=evaluate(model.H.data.detach(), self.idx_train, self.labels, self.args.device)

@@ -6,3 +6,4 @@ from .DMGIML import DMGIML
 from.HDGI import HDGI
 from.DMGICS import DMGICS
 from .DMGI_PN import DMGI_PN
+from .DMGICluster import DMGICluster

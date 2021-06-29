@@ -69,3 +69,22 @@ def run_kmeans(x, y, k):
     ari=sum(ARI_list)/len(ARI_list)
 
     return nmiscore,acc,ari,np.std(ACM_list),np.std(NMI_list),np.std(ARI_list)
+
+def run_kmeans_yypred(y_pred, y):
+
+    NMI_list = []
+    ACM_list = []
+    ARI_list=[]
+    for i in range(1):
+        acc = acc_val(np.array(y), np.array(y_pred))
+        ACM_list.append(acc)
+        s1 = normalized_mutual_info_score(y, y_pred, average_method='arithmetic')
+        ari=adjusted_rand_score(y, y_pred)
+        ARI_list.append(ari)
+        NMI_list.append(s1)
+
+    nmiscore = sum(NMI_list) / len(NMI_list)
+    acc = sum(ACM_list) / len(ACM_list)
+    ari=sum(ARI_list)/len(ARI_list)
+
+    return nmiscore,acc,ari,np.std(ACM_list),np.std(NMI_list),np.std(ARI_list)

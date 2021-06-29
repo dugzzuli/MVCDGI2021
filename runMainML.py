@@ -50,7 +50,7 @@ def runMain(config,f,args):
 
 if __name__ == '__main__':
 
-    d=['BBC'] #['Reuters','yale_mtv','MSRCv1','3sources','small_Reuters','small_NUS','BBC','BBCSport'] # ['BBCSport','yale_mtv','MSRCv1','3sources']
+    d=['Reuters'] #['Reuters','yale_mtv','MSRCv1','3sources','small_Reuters','small_NUS','BBC','BBCSport'] # ['BBCSport','yale_mtv','MSRCv1','3sources']
     for data in d:
         for link in ['Cat']:
             config = yaml.load(open("configMainML.yaml", 'r'))
@@ -71,7 +71,7 @@ if __name__ == '__main__':
             
             parser.add_argument('--isBias',default=False)
             
-            parser.add_argument('--isAttn',  default=False)
+            parser.add_argument('--isAttn',  default=True)
             # parser.add_argument('--isAttn',  default=True if "Mean"==link else False)
             
             parser.add_argument('--isMeanOrCat', nargs='?', default=link) #config[data]['isMeanOrCat']
@@ -80,7 +80,7 @@ if __name__ == '__main__':
                         
             print(args)
 
-            resultsDir = 'baseline/DMGISC/{}/{}'.format(args.isMeanOrCat,args.dataset)
+            resultsDir = 'baseline/DMGIAttention/{}/{}'.format(args.isMeanOrCat,args.dataset)
             mkdir(resultsDir)
             
             filePath = os.path.join(resultsDir, '{}_{}_{}_{}_sc.{}.txt'.format('Y 'if args.Weight else 'N',args.dataset,args.isMeanOrCat,config[args.dataset]['norm'],args.sc))

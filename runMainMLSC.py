@@ -50,10 +50,10 @@ def runMain(config,f,args):
 
 if __name__ == '__main__':
 
-    d=['small_Reuters'] #['Reuters','yale_mtv','MSRCv1','3sources','small_Reuters','small_NUS','BBC','BBCSport'] # ['BBCSport','yale_mtv','MSRCv1','3sources']
+    d=['BBCSport'] #['Reuters','yale_mtv','MSRCv1','3sources','small_Reuters','small_NUS','BBC','BBCSport'] # ['BBCSport','yale_mtv','MSRCv1','3sources']
     for data in d:
-        for link in ['Cat']:
-            config = yaml.load(open("configMainMLSC.yaml", 'r'))
+        for link in ['Mean']:
+            config = yaml.load(open("configMainMLSC_Mean.yaml", 'r'))
             
             # input arguments
             parser = argparse.ArgumentParser(description='DMGI')
@@ -62,7 +62,7 @@ if __name__ == '__main__':
             parser.add_argument('--View_num',default=config[data]['View_num'])
             parser.add_argument('--norm',default=config[data]['norm'])
             parser.add_argument('--nb_epochs', type=int, default=config[data]['nb_epochs'])
-            parser.add_argument('--sc', type=float, help='GCN self connection') #config[data]['sc']
+            parser.add_argument('--sc', type=float, help='GCN self connection', default=10) #config[data]['sc']
             parser.add_argument('--gpu_num', type=int, default=0)
             parser.add_argument('--drop_prob', type=float, default=0.2)
             parser.add_argument('--patience', type=int, default=100)
@@ -79,7 +79,7 @@ if __name__ == '__main__':
                         
             print(args)
 
-            resultsDir = 'baseline/DMGIAdjuSC/{}/{}'.format(args.isMeanOrCat,args.dataset)
+            resultsDir = 'baseline/DMGIVisulazation/{}/{}'.format(args.isMeanOrCat,args.dataset)
             mkdir(resultsDir)
             
             filePath = os.path.join(resultsDir, '{}_{}_{}_{}_sc.{}.txt'.format('Y 'if args.Weight else 'N',args.dataset,args.isMeanOrCat,config[args.dataset]['norm'],args.sc))
