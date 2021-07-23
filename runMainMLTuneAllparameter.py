@@ -17,7 +17,7 @@ import yaml
 
 if __name__ == '__main__':
 
-    d=['small_Reuters'] #['Reuters','yale_mtv','MSRCv1','3sources','small_Reuters','small_NUS','BBC','BBCSport'] # ['BBCSport','yale_mtv','MSRCv1','3sources']
+    d=['small_NUS'] #['Reuters','yale_mtv','MSRCv1','3sources','small_Reuters','small_NUS','BBC','BBCSport'] # ['BBCSport','yale_mtv','MSRCv1','3sources']
     atten=True
     for data in d:
         for link in ['Mean']:
