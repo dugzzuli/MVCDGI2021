@@ -87,12 +87,6 @@ if __name__ == '__main__':
             filePath = os.path.join(resultsDir, '{}_{}_{}_{}_sc.{}.txt'.format('Y 'if args.Weight else 'N',args.dataset,args.isMeanOrCat,config[args.dataset]['norm'],args.sc))
     
 
-            # with open(filePath, 'w+') as f:
-            #     for sc in [1,1,1,1,1]:
-            #         args.sc=sc
-            #         f.write("SC:{}\n".format(args.sc))
-            #         runMain(config,f,args)
-            #         f.flush()
             
             with open(filePath, 'w+') as f:
                 f.write("SC:{}\n".format(args.sc))

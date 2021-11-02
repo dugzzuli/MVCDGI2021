@@ -25,7 +25,7 @@ class embedder:
         features = [process.preprocess_features(feature,args.norm) for feature in features]
 
         args.nb_nodes = features[0].shape[0]
-        args.ft_size = features[0].shape[1]
+        args.ft_size = [feature.shape[1] for feature in features]
         args.nb_classes = labels.shape[1]
         args.nb_graphs = len(adj)
         args.adj = adj

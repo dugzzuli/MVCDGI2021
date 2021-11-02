@@ -18,6 +18,7 @@ from tqdm import tqdm
 from torch.nn.parameter import Parameter
 from sklearn.cluster import KMeans
 import torch.nn.functional as F
+from evaluate import acc_val
 
 def target_distribution(q):
     weight = q**2 / q.sum(0)
@@ -44,11 +45,18 @@ class DMGICluster(embedder):
         curepoch=-1
         
         
-        kmeans = KMeans(n_clusters=5, n_init=20)
-        embedding=np.loadtxt(self.args.initcenter,delimiter=',')
+        model.load_state_dict(torch.load(self.args.initcenter, map_location='cpu'),False)
+        y = torch.argmax(self.labels[0, self.idx_train], dim=1).cpu().numpy()
+        
+        with torch.no_grad():
+            embedding = model.H.data.detach()[0, self.idx_train].cpu();
+        
+        kmeans = KMeans(n_clusters=len(np.unique(y)), n_init=20)
+        
         y_pred = kmeans.fit_predict(embedding)
         
         model.cluster_layer.data = torch.tensor(kmeans.cluster_centers_).to(self.args.device)
+        y_pred_last = y_predy_pred_last = y_pred
         
         for epoch in iters:
         
@@ -64,13 +72,21 @@ class DMGICluster(embedder):
             lbl_1 = torch.ones(self.args.batch_size, self.args.nb_nodes)
             lbl_2 = torch.zeros(self.args.batch_size, self.args.nb_nodes)
             lbl = torch.cat((lbl_1, lbl_2), 1).to(self.args.device)
+            
 
-            if epoch % 50 == 0:
+            if epoch % 1 == 0:
                 # update_interval
                 with torch.no_grad():
                     resulttemp= model(features, adj, shuf, self.args.sparse, None, None, None)
                     tmp_q = resulttemp['q'].data
                     p = target_distribution(tmp_q)
+                    
+                y_pred = tmp_q.cpu().numpy().argmax(1)
+                delta_label = np.sum(y_pred != y_pred_last).astype(
+                    np.float32) / y_pred.shape[0]
+                y_pred_last = y_pred
+                acc = acc_val(y, y_pred)
+                print('Iter {}'.format(epoch), ':Acc {:.4f}'.format(acc))
                 
             result = model(features, adj, shuf, self.args.sparse, None, None, None)
             logits = result['logits']
@@ -102,9 +118,6 @@ class DMGICluster(embedder):
             if cnt_wait == self.args.patience:
                 break
             
-            
-                
-
             loss.backward()
             optimiser.step()
 
@@ -125,34 +138,7 @@ class DMGICluster(embedder):
                 # f.write('\n')
                 # print()
 
-            # if ((epoch+1) % 200) == 0:
-            #     emdH=model.H.data.detach()
-            #     adjzeros=self.KNN(emdH,emdH)
-            #     adjzeros=adjzeros.float()
-            #     adj = [adjzeros.to(self.args.device) for adj_ in self.adj]
-                # pass
 
-
-
-        # model.load_state_dict(torch.load('saved_model/best_{}_{}_{}.pkl'.format(self.args.dataset, self.args.embedder,0)))
-            # dirp='baseline/epochcluster/{}/'.format(self.args.dataset)
-            # mkdir(dirp)
-            
-            # if(epoch==0):
-            #     np.savetxt(dirp+'{}.txt'.format(epoch),np.squeeze(model.H.data.detach().cpu()),delimiter=',')
-            
-            # if(epoch==10):
-            #     np.savetxt(dirp+'{}.txt'.format(epoch),np.squeeze(model.H.data.detach().cpu()),delimiter=',')
-            
-            # if(epoch==100):
-            #     np.savetxt(dirp+'{}.txt'.format(epoch),np.squeeze(model.H.data.detach().cpu()),delimiter=',')
-                
-            # if(epoch==200):
-            #     np.savetxt(dirp+'{}.txt'.format(epoch),np.squeeze(model.H.data.detach().cpu()),delimiter=',')
-            
-            # if(epoch==280):
-            #     np.savetxt(dirp+'{}.txt'.format(epoch),np.squeeze(model.H.data.detach().cpu()),delimiter=',')
-            
         # Evaluation
         model.eval()
         nmi,acc,ari,stdacc,stdnmi,stdari=evaluate(model.H.data.detach(), self.idx_train, self.labels, self.args.device)

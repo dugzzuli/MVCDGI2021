@@ -68,8 +68,8 @@ class DMGI(embedder):
             if loss < best:
                 best = loss
                 cnt_wait = 0
-
-                # torch.save(model.state_dict(), 'saved_model/best_{}_{}_{}.pkl'.format(self.args.dataset, self.args.embedder,0))
+                torch.save(model.state_dict(), 'saved_model/best_{}_{}_{}.pkl'.format(self.args.dataset, self.args.embedder,0))
+                
             else:
                 cnt_wait =+ 1
 
@@ -99,37 +99,7 @@ class DMGI(embedder):
                 # f.write('\n')
                 # print()
 
-            # if ((epoch+1) % 200) == 0:
-            #     emdH=model.H.data.detach()
-            #     adjzeros=self.KNN(emdH,emdH)
-            #     adjzeros=adjzeros.float()
-            #     adj = [adjzeros.to(self.args.device) for adj_ in self.adj]
-                # pass
-
-
-
-        # model.load_state_dict(torch.load('saved_model/best_{}_{}_{}.pkl'.format(self.args.dataset, self.args.embedder,0)))
-            dirp='baseline/epoch/{}/'.format(self.args.dataset)
-            
-            mkdir(dirp)
-            if(epoch==0):
-                np.savetxt(dirp+'{}_{}.txt'.format(epoch,self.args.hid_units),np.squeeze(model.H.data.detach().cpu()),delimiter=',')
-            
-            if(epoch==10):
-                np.savetxt(dirp+'{}_{}.txt'.format(epoch,self.args.hid_units),np.squeeze(model.H.data.detach().cpu()),delimiter=',')
-            
-            if(epoch%100==0):
-                np.savetxt(dirp+'{}_{}.txt'.format(epoch,self.args.hid_units),np.squeeze(model.H.data.detach().cpu()),delimiter=',')
-            
-            # if(epoch==20):
-            #     np.savetxt(dirp+'{}.txt'.format(epoch),np.squeeze(model.H.data.detach().cpu()),delimiter=',')
-                
-            # if(epoch==30):
-            #     np.savetxt(dirp+'{}.txt'.format(epoch),np.squeeze(model.H.data.detach().cpu()),delimiter=',')
-            
-            # if(epoch==40):
-            #     np.savetxt(dirp+'{}.txt'.format(epoch),np.squeeze(model.H.data.detach().cpu()),delimiter=',')
-            
+        
         # Evaluation
         model.eval()
         nmi,acc,ari,stdacc,stdnmi,stdari=evaluate(model.H.data.detach(), self.idx_train, self.labels, self.args.device)

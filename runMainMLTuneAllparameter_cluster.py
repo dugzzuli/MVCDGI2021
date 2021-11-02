@@ -17,7 +17,7 @@ import yaml
 
 if __name__ == '__main__':
 
-    d=['BBCSport'] #['Reuters','yale_mtv','MSRCv1','3sources','small_Reuters','small_NUS','BBC','BBCSport'] # ['BBCSport','yale_mtv','MSRCv1','3sources']
+    d=['Reuters'] #['Reuters','yale_mtv','MSRCv1','3sources','small_Reuters','small_NUS','BBC','BBCSport'] # ['BBCSport','yale_mtv','MSRCv1','3sources']
     atten=False
     for data in d:
         for link in ['Mean']:
@@ -43,17 +43,18 @@ if __name__ == '__main__':
             parser.add_argument('--Weight', nargs='?', default=config['Weight'])
             
             
-            parser.add_argument('--lr', type=float, default=0.01, help='学习率') 
-            parser.add_argument('--hid_units', type=int, default=512, help='低维特征维度') 
-            parser.add_argument('--l2_coef', type=float, default=0.01, help='l2_coef') 
-            parser.add_argument('--reg_coef', type=float, default=0.01, help='reg_coef') 
+            parser.add_argument('--lr', type=float, default=config[data]['lr'][0], help='学习率') 
+            parser.add_argument('--hid_units', type=int, default=config[data]['hid'][0], help='低维特征维度') 
+            parser.add_argument('--l2_coef', type=float, default=config[data]['l2_coef'][0], help='l2_coef') 
+            parser.add_argument('--reg_coef', type=float, default=config[data]['reg_coef'][0], help='reg_coef') 
             
                 
             args, unknown = parser.parse_known_args()
             
             args.lambda_value = 0.1
             
-            args.initcenter='baseline/epoch/{}/400_512.txt'.format(args.dataset)
+            args.initcenter='saved_model/best_{}_{}_{}.pkl'.format(args.dataset, "DMGI","0") #'saved_model/epoch/{}/400_512.txt'.format(args.dataset)
+            
             print(args)
 
             resultsDir = 'baseline/DMGITuneAllparameters_Cluster/{}/{}'.format(args.isMeanOrCat,args.dataset)
@@ -67,6 +68,7 @@ if __name__ == '__main__':
                 f.flush()
                 
                 rownetworks, truefeatures_list, labels, idx_train=process.load_data_mv(args,Unified=False)
+                args.num_cluster = len(np.unique(np.argmax(labels,1)))
 
                 args.rownetworks, args.truefeatures_list, args.labels, args.idx_train=rownetworks, truefeatures_list, labels, idx_train 
                 
